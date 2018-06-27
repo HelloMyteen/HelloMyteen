@@ -1,4 +1,5 @@
 #include "game_unit.h"
+#include "cocos2d.h"
 
 GameUnit * GameUnit::create(const std::string & filename)
 {
@@ -39,12 +40,12 @@ std::string GameUnit::getName()
 	return unit_name;
 }
 
-int GameUnit::getHealth()
+float GameUnit::getHealth()
 {
 	return health;
 }
 
-int GameUnit::getMaxHealth()
+float GameUnit::getMaxHealth()
 {
 	return max_health;
 }
@@ -103,12 +104,12 @@ void GameUnit::setType(int t)
 //	position = pos;
 //}
 
-void GameUnit::setHealth(int h)
+void GameUnit::setHealth(float h)
 {
 	health = h;
 }
 
-void GameUnit::setMaxHealth(int mh)
+void GameUnit::setMaxHealth(float mh)
 {
 	max_health = mh;
 }
@@ -156,4 +157,22 @@ void GameUnit::setEffectRange(float range)
 void GameUnit::setIsMove(bool is)
 {
 	isMove = is;
+}
+
+cocos2d::Sprite * GameUnit::getblood()
+{
+	return blood;
+}
+cocos2d::Sprite * GameUnit::getbar()
+{
+	return bar;
+}
+
+void GameUnit::setblood(Sprite * _blood)
+{
+	blood = _blood;
+}
+void GameUnit::setbar(Sprite * _bar)
+{
+	bar = _bar;
 }

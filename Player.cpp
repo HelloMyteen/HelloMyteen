@@ -85,3 +85,7 @@ bool Player::getIsBase()
 {
 	return isBase;
 }
+void Player::setPower(int m)
+{
+	power = m;
+}

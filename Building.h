@@ -25,8 +25,6 @@ public:
 
 	void _isattacked(Moveable* target);
 
-	bool _canattack(Moveable* target);
-
 	void boomlisten();
 	
 private:

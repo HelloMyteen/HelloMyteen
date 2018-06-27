@@ -36,6 +36,7 @@ Building* Building::createWithSpriteFrameName(const std::string & filename)
 void Building::_isattacked(Moveable* target)
 {
 	this->setHealth(this->getHealth() - target->getAttack() - this->getDefend());
+	this->getblood()->setScaleX(this->getHealth()/this->getMaxHealth());
 	if (getHealth() <= 0)
 	{
 		EraseBuilding();
@@ -54,27 +55,6 @@ void Building::_isattacked(Moveable* target)
 	fire_animation->setLoops(1);
 	auto action = cocos2d::Animate::create(fire_animation);
 	message.getTargetOne()->runAction(action);
-}
-
-bool Building::_canattack(Moveable * target)
-{
-
-	if (!target->getAttackable())
-	{
-		//auto toast = Toast::create("正在擦枪！！无法攻击", 25, 1);
-		//message._mapscene->addChild(toast);
-
-		return false;
-	}
-	float distance = this->getPosition().distance(target->getPosition());
-	if (distance > this->getEffectRange())
-	{
-		//auto toast = Toast::create("too far away!!", 25, 1);
-		//message._mapscene->addChild(toast);
-		return false;
-	}
-
-	return true;
 }
 
 
@@ -98,6 +78,7 @@ void Building::EraseBuilding()
 	auto callFunc = cocos2d::CallFuncN::create(CC_CALLBACK_0(Building::boomlisten, this));
 	auto sequence = cocos2d::Sequence::create(action, callFunc, NULL);
 	this->runAction(sequence);
+	
 }
 
 void Building::boomlisten()
@@ -127,27 +108,14 @@ void Building::initBuilding(const cocos2d::Vec2 pos, int type)
 		{
 			if (message.getTargetOne() == nullptr)//target1无目标
 			{
-				if (false)//操控的单位不属于该玩家
-				{
-					return true;
-				}
-				else if(message.getOrder()=="sell")
-				{
-					//金钱上涨
-					EraseBuilding();
-				}
+				cocos2d::log("it's useless");
 			}
 			else
 			{
-				if (_canattack(message.getTargetOne()))
-				{
-					_isattacked(message.getTargetOne());
-					//cocos2d::log("WARNING!!! I WAS ATTACKED!!!");
-					//cocos2d::log("The car's blood %d", this->getHealth());
-					//cocos2d::log("the order is clean");
-				}
-				
-				
+				_isattacked(message.getTargetOne());
+				cocos2d::log("WARNING!!! I WAS ATTACKED!!!");
+				cocos2d::log("The car's blood %d", this->getHealth());
+				cocos2d::log("the order is clean");
 				message.clean();
 			}
 			return true;
@@ -160,47 +128,47 @@ void Building::initBuilding(const cocos2d::Vec2 pos, int type)
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(buildinglistener, this);
 
 	this->setType(type);
-	if (type == Mine_TYPE)
+	if (type == BUIDMINE_TYPE)
 	{
-		setHealth(Mine_HEALTH);
-		setMaxHealth(Mine_MAXHEALTH);
-		setDefend(Mine_DEFEND);
-		setBuildTime(Mine_BUILD_TIME);
-		setEffectRange(Mine_BUILD_TIME);
+		setHealth(BUIDMINE_HEALTH);
+		setMaxHealth(BUIDMINE_MAXHEALTH);
+		setDefend(BUIDMINE_DEFEND);
+		setBuildTime(BUIDMINE_BUILD_TIME);
+		setEffectRange(BUIDMINE_BUILD_TIME);
 		setIsMove(true);
 		auto frame = cocos2d::SpriteFrame::create("buildingmine.png", cocos2d::Rect(0, 0, 99, 99));
 		this->setDisplayFrame(frame);
 	}
-	else if (type == Power_TYPE)
+	else if (type == BUIDPOWER_TYPE)
 	{
-		setHealth(Power_HEALTH);
-		setMaxHealth(Power_MAXHEALTH);
-		setDefend(Power_DEFEND);
-		setBuildTime(Power_BUILD_TIME);
+		setHealth(BUIDPOWER_HEALTH);
+		setMaxHealth(BUIDPOWER_MAXHEALTH);
+		setDefend(BUIDPOWER_DEFEND);
+		setBuildTime(BUIDPOWER_BUILD_TIME);
 		//setEffectRange(Power_EffectRange);
-		setPrice(Power_PRICE);
+		setPrice(BUIDPOWER_PRICE);
 		setIsMove(true);
 		auto frame = cocos2d::SpriteFrame::create("buildingpower.png", cocos2d::Rect(0, 0, 99, 99));
 		this->setDisplayFrame(frame);
 	}
-	else if (type == Soldier_TYPE)
+	else if (type == BUIDSOLDIER_TYPE)
 	{
-		setHealth(Soldier_HEALTH);
-		setMaxHealth(Soldier_MAXHEALTH);
-		setDefend(Soldier_DEFEND);
-		setBuildTime(Soldier_BUILD_TIME);
-		setPrice(Soldier_PRICE);
+		setHealth(BUIDSOLDIER_HEALTH);
+		setMaxHealth(BUIDSOLDIER_MAXHEALTH);
+		setDefend(BUIDSOLDIER_DEFEND);
+		setBuildTime(BUIDSOLDIER_BUILD_TIME);
+		setPrice(BUIDSOLDIER_PRICE);
 		setIsMove(true);
 		auto frame = cocos2d::SpriteFrame::create("buildingsoldier.png", cocos2d::Rect(0, 0, 99, 99));
 		this->setDisplayFrame(frame);
 	}
-	else if (type == Car_TYPE)
+	else if (type == BUIDCAR_TYPE)
 	{
-		setHealth(Car_HEALTH);
-		setMaxHealth(Car_MAXHEALTH);
-		setDefend(Car_DEFEND);
-		setBuildTime(Car_BUILD_TIME);
-		setPrice(Car_PRICE);
+		setHealth(BUIDCAR_HEALTH);
+		setMaxHealth(BUIDCAR_MAXHEALTH);
+		setDefend(BUIDCAR_DEFEND);
+		setBuildTime(BUIDCAR_BUILD_TIME);
+		setPrice(BUIDCAR_PRICE);
 		setIsMove(true);
 		auto frame = cocos2d::SpriteFrame::create("buildingcar.png", cocos2d::Rect(0, 0, 99, 99));
 		this->setDisplayFrame(frame);
@@ -208,4 +176,3 @@ void Building::initBuilding(const cocos2d::Vec2 pos, int type)
 	setPosition(pos);
 	setIsMove(false);
 }
-

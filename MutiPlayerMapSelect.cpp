@@ -56,7 +56,7 @@ bool MutiPlayerMapSelect::init()
 	CCSprite * spriteUsername1 = CCSprite::createWithSpriteFrame(f_register_username1);
 	CCSize spriteUsernameSize1 = spriteUsername1->getContentSize();
 	CCSize editSize = CCSizeMake(spriteUsernameSize1.width * 3 / 5, spriteUsernameSize1.height);
-	CCPoint spriteUsernamePoint1 = CCPointMake(size1.width / 2, size1.height / 2 + spriteUsernameSize1.height * 11 / 6);
+	CCPoint spriteUsernamePoint1 = CCPointMake(size1.width / 2, size1.height * 2 /3 + spriteUsernameSize1.height * 11 / 6-30);
 	spriteUsername1->setPosition(spriteUsernamePoint1);
 	this->addChild(spriteUsername1);
 
@@ -65,7 +65,7 @@ bool MutiPlayerMapSelect::init()
 
 	//添加输入框
 	editBoxManagerUsername1 = EditBox::create(CCSizeMake(250, 50), Scale9Sprite::create("2.png"));
-	editBoxManagerUsername1->setPosition(Vec2(size1.width / 2, size1.height * 3 / 4));
+	editBoxManagerUsername1->setPosition(Vec2(size1.width / 2, size1.height * 7 / 8));
 	editBoxManagerUsername1->setFontColor(Color3B(0, 255, 0));
 	editBoxManagerUsername1->setPlaceHolder("Please input your ID");
 	editBoxManagerUsername1->setMaxLength(20);
@@ -79,6 +79,13 @@ bool MutiPlayerMapSelect::init()
 	Muti->setPosition(size.width / 4, size.height / 4);
 	Muti->setScale(0.6f);
 	this->addChild(Muti);
+
+	auto pMuti2 = MenuItemImage::create("SelectMapTwo.png", "SelectMapOneTwo.png", this, menu_selector(MutiPlayerMapSelect::ButtonToRoomTwo));
+	auto Muti2 = Menu::create(pMuti2, NULL);
+	Muti2->setAnchorPoint(Vec2(0, 0));
+	Muti2->setPosition(size.width *3/ 4, size.height / 4);
+	Muti2->setScale(0.6f);
+	this->addChild(Muti2);
 
 	
 
@@ -112,6 +119,17 @@ void MutiPlayerMapSelect::ButtonToRoom(Ref* pSender)
 	myplayer.setPlayerName(editBoxManagerUsername1->getText());
 	myplayer.flag = 1;
 	message._players.push_back(myplayer);
+	message.mapindex = 1;
+	Director::sharedDirector()->replaceScene(TransitionFade::create(3.0f, Room::createScene()));
+}
+
+void MutiPlayerMapSelect::ButtonToRoomTwo(Ref* pSender)
+{
+	Player myplayer;
+	myplayer.setPlayerName(editBoxManagerUsername1->getText());
+	myplayer.flag = 1;
+	message._players.push_back(myplayer);
+	message.mapindex = 2;
 	Director::sharedDirector()->replaceScene(TransitionFade::create(3.0f, Room::createScene()));
 }
 void MutiPlayerMapSelect::Return(Ref* pSender)

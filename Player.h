@@ -28,6 +28,7 @@ public:
     void setHost(bool b);
     void setDead(bool b);
     void setMoney(int m);
+	void setPower(int m);
     void setIsCarFactory(bool b);
     void setIsSoldierFactory(bool b);
 	void setIsBase(bool k);
@@ -41,8 +42,8 @@ private:
     bool isHost;
 	bool ready = false;     //是否准备
     bool isDead;
-    int money;
-    int power;
+	int money = 2000;
+	int power = 0;
     bool isCarFactory=false;
     bool isSoldierFactory=false;
 	bool isBase = true;

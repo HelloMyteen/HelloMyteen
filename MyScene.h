@@ -17,9 +17,9 @@ class MyWorld :public cocos2d::Layer
 public:
     static cocos2d::Scene* createScene();
     virtual bool init();
-      void ButtonToSinglePlayerMapSelect(cocos2d::Ref* pSender);
-      void menuButton012(cocos2d::Ref* pSender);
-      void Return(cocos2d::Ref* pSender);
+      /*void ButtonToSinglePlayerMapSelect(cocos2d::Ref* pSender);*/
+    void menuButton012(cocos2d::Ref* pSender);
+    void Return(cocos2d::Ref* pSender);
     CREATE_FUNC(MyWorld);
 };
 #endif

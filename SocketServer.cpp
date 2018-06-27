@@ -172,6 +172,7 @@ void SocketServer::sendMessage(HSocket socket, const char* data, int count)
 			{
 				log("send error!");
 			}
+			log("ret:%d,count:%d", ret, count);
 			break;
 		}
 	}
@@ -187,6 +188,6 @@ void SocketServer::sendMessage(const char* data, int count)
 		{
 			log("send error!");
 		}
-
+		log("rret:%d", ret);
 	}
 }

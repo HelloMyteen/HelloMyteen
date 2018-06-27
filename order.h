@@ -42,6 +42,8 @@ public:
 
 	//³¢ÊÔ
 	std::list<introduct>_orderlist;
+	//µØÍ¼Ñ¡Ôñ
+	int mapindex = 0;
 
 private:
 	std::string operatename;

@@ -1,12 +1,12 @@
 #include "cocostudio/CocoStudio.h"
 #include "ui/CocosGUI.h"
 #include "NinePatch.h"
-#include "MapScene.h"
+#include "MapSceneTwo.h"
 #include "MyScene.h"
 #include "SelectManager.h"
 #include "cocos2d.h"
 #include "string.h"
-#include "Room.h"
+#include "RoomTwo.h"
 #include "order.h"
 #include "Player.h"
 #include "Clientin.h"
@@ -17,14 +17,6 @@ extern Message message;
 //**************************************************************   以下Room协议执行函数
 bool execute(std::string allorder)      //Room协议执行函数
 {
-	/**************************** 地图通知 ***********************************/
-	std::size_t foundmap = allorder.find("m!pp");
-	if (foundmap != std::string::npos)
-	{
-		message.mapindex = (int)atof(allorder.substr(foundmap - 1, 1).c_str());
-		return true;
-	}
-	/***************************************************************/
 	std::size_t found = allorder.find("a!dd");
 	std::string username;
 	std::size_t leng = allorder.length();
@@ -56,7 +48,7 @@ bool execute(std::string allorder)      //Room协议执行函数
 		username1 = allorder.substr(0, found1);
 		for (auto x : message._players)
 		{
-			if (message._players[i].name==username1)
+			if (message._players[i].name == username1)
 			{
 				message._players[i].setready();
 			}
@@ -76,7 +68,6 @@ void onservernewcon(HSocket socket)
 	mynameadd = message._players[0].name + "a!dd";
 	int leng = mynameadd.length();
 	message._server->sendMessage(socket, mynameadd.c_str(), leng);
-	message._server->sendMessage(socket, std::to_string(message.mapindex).c_str(), std::to_string(message.mapindex).length());
 }
 void onserverrecv(const char* data, int count)
 {
@@ -96,7 +87,7 @@ Scene* Room::createScene()
 	message._scene = scene;
 	return scene;
 }
-bool Room::init()
+bool RoomTwo::init()
 {
 	if (!Layer::init())
 	{
@@ -114,10 +105,10 @@ bool Room::init()
 	auto backgroundSelectManager = NinePatch3::createPatch(size.width, size.height, 0, Vec2(0, 0));
 	addChild(backgroundSelectManager);
 
-	auto pMapOne = MenuItemImage::create("START.png", "START.png", this, menu_selector(Room::BackToSelectManager));
+	auto pMapOne = MenuItemImage::create("START.png", "START.png", this, menu_selector(RoomTwo::BackToSelectManager));
 	auto MapOne = Menu::create(pMapOne, NULL);
 	MapOne->setAnchorPoint(Vec2(0, 0));
-	MapOne->setPosition(size.width /2, size.height/16);
+	MapOne->setPosition(size.width / 2, size.height / 16);
 	MapOne->setScale(0.6f);
 	this->addChild(MapOne);
 	//可定义一张刷新图片
@@ -149,7 +140,7 @@ bool Room::init()
 		message._players[0].name.c_str();
 		message._client->onRecv = onclientrecv;
 		message._client->connectServer(message.ip, 8000);
-		message._client->sendMessage(useradd.c_str(),leng);
+		message._client->sendMessage(useradd.c_str(), leng);
 	}
 	//***************************以上，建立完连接，下方开始在房间载入玩家******************//
 	scheduleUpdate();        //执行定时器，在数据传输时，实时刷新，获取更新信息
@@ -157,7 +148,7 @@ bool Room::init()
 	return true;
 }
 
-void Room::BackToSelectManager(Ref* pSender)
+void RoomTwo::BackToSelectManager(Ref* pSender)
 {
 	int i = 0, total = 0;
 	message._players[0].setready();
@@ -166,7 +157,7 @@ void Room::BackToSelectManager(Ref* pSender)
 		std::string userrea;
 		userrea = message._players[0].name + "rea!dy";
 		int leng = userrea.length();
-		message._server->sendMessage(userrea.c_str(),leng);
+		message._server->sendMessage(userrea.c_str(), leng);
 	}
 	else
 	{
@@ -188,7 +179,7 @@ void Room::BackToSelectManager(Ref* pSender)
 	}
 }
 
-void Room::update(float dt)
+void RoomTwo::update(float dt)
 {
 	int i = 0;
 	for (auto x : message._players)
@@ -260,7 +251,7 @@ void Room::update(float dt)
 				}
 			}
 		}
-		else if(i==3)
+		else if (i == 3)
 		{
 			if (message._players[i].labelflag == false)
 			{
@@ -286,7 +277,7 @@ void Room::update(float dt)
 	}
 }
 
-void Room::myupdate(float dt)
+void RoomTwo::myupdate(float dt)
 {
 	int i = 0;
 	int total = 0;
@@ -300,7 +291,7 @@ void Room::myupdate(float dt)
 	}
 	if (total == i)
 	{
-		Director::sharedDirector()->replaceScene(TransitionFade::create(3.0f, MapScene::createScene()));
-		unschedule(schedule_selector(Room::myupdate));
+		Director::sharedDirector()->replaceScene(TransitionFade::create(3.0f, MapSceneTwo::createScene()));
+		unschedule(schedule_selector(RoomTwo::myupdate));
 	}
 }

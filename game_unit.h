@@ -15,11 +15,14 @@ public:
 	static GameUnit* createWithSpriteFrameName(const std::string & 	filename);
 
 	//获取游戏单位各种属性的函数
+	Sprite * getblood();
+	Sprite * getbar();
+
 	int getType();
 //	cocos2d::Vec2 getVec();
 	std::string getName();
-	int getHealth();			//获取单位生命值
-	int getMaxHealth();
+	float getHealth();			//获取单位生命值
+	float getMaxHealth();
 	int getAttack();
 	int getAttackSpeed();
 	int getDefend();
@@ -35,10 +38,13 @@ public:
 
 
 	//修改各种属性
+	void setblood(Sprite * _blood);
+	void setbar(Sprite * _bar);
+
 	void setType(int t);
 //	void setVec(cocos2d::Vec2 pos);
-	void setHealth(int h);
-	void setMaxHealth(int mh);
+	void setHealth(float h);
+	void setMaxHealth(float mh);
 	void setAttack(int att);
 	void setAttackSpeed(int att_spe);
 	void setDefend(int def);
@@ -58,8 +64,8 @@ private:
 	int type=0;						//单位的类型
 //	cocos2d::Vec2 position;			//单位的位置
 	std::string unit_name;			//单位的id
-	int health;						//单位的生命值
-	int max_health;					//单位的最大生命值
+	float health;						//单位的生命值
+	float max_health;					//单位的最大生命值
 	int attack;						//单位的攻击力
 	int attack_speed;				//单位的攻击速度
 	int defend;						//单位的防御力
@@ -67,5 +73,7 @@ private:
 	int price;						//单位的价格
 	bool isUnitDead = false;		//单位是否死亡
 	bool isMove = true;            //单位是否可移动
+	cocos2d::Sprite*blood;
+	cocos2d::Sprite*bar;
 };
 

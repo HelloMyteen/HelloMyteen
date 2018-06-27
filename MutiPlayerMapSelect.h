@@ -19,6 +19,7 @@
 #include <iostream>
 #include<vector>
 
+
 USING_NS_CC;
 USING_NS_CC_EXT;
 
@@ -40,7 +41,7 @@ public:
 	virtual void editBoxReturn(extension::EditBox* editBox);
 	void Return(cocos2d::Ref* pSender);
 	void ButtonToRoom(cocos2d::Ref* pSender);
-
+	void ButtonToRoomTwo(cocos2d::Ref* pSender);
 
 };
 
